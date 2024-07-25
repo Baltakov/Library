@@ -1,0 +1,11 @@
+.left {
+  background-color: #f21818;
+  width: 40%;
+}
+.right {
+  background-color: #f3e011;
+  width: 60%;
+}
+.root {
+  display: flex;
+}
