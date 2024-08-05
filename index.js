@@ -51,14 +51,14 @@ rightDiv.classList.add("right");
 console.log(leftDiv);
 // ???????додаємо створені діви в ДОМ-дерево. В html ми з початку ствоювали контент, а потім додавли до нього класи((
 root.append(leftDiv, rightDiv);
-console.log(root.innerHTML); //?????inner
+console.log(root.innerHTML);
 // створюємо тег аш1
 const title = document.createElement("h1");
 console.log(title); // ???????????Screenshot_15
 // присвоюємо заголовку аш1 значення текст
 title.textContent = "Library";
 console.log(title.textContent);
-// // створюємо тег ул
+// створюємо тег ул
 const list = document.createElement("ul");
 console.log(list);
 // створюємо тег баттон
@@ -68,66 +68,89 @@ console.log(addButton);
 addButton.textContent = "addBook";
 console.log(addButton.textContent);
 // додаємо кнопці клас ад
-// addButton.classList.add("add");??? навіщо?
+addButton.classList.add("add");
 console.log(addButton);
-// ????додаємо додаємо створені аш1, улку та кнопку адблок в ДОМ-дерево
+// додаємо створені аш1, улку та кнопку адблок в ДОМ-дерево
 leftDiv.append(title, list, addButton);
 // створюємо функцію renderList, яка за допомогою метода меп перебирає масив букс і повертає ліжку з айді, заголовок з назвою та кнопку Делейт. Формує HTML-размітку з айді, назвою та кнопкою.
-
 const renderList = () => {
   const markup = books
     .map(
       (book) => `<li id="${book.id}">
   <p class="title">${book.title}</p><button class="delete">Delete</button></li>`
     )
-    .join(""); //?????
+    .join("");
   // перед вставкою нового контента очищуємо в улкі старий
-  console.log(list.innerHTML); // ???? немає у консолі
+  console.log(list.innerHTML);
   list.innerHTML = "";
-  console.log(list.innerHTML); // ??? немає у консолі
+  console.log(list.innerHTML);
   // вставляємо нову розмітку на початку улкі
   list.insertAdjacentHTML("afterbegin", markup);
-  console.log(list.innerHTML); // ??? немає у консолі
+  console.log(list.innerHTML);
+
+  // отримаємо посилання на всі елементи з класом delete
+  const deleteButtons = document.querySelectorAll(".delete");
+  console.log(deleteButtons);
+  // перебираємо масив кнопок та надаємо обробника подій кожної
+  deleteButtons.forEach((button, index) => {
+    console.log(index + 1); // немає у консолі ????
+    button.addEventListener("click", deleteBook);
+    console.log(deleteButtons); // немає у консолі ????
+  });
+  console.log(deleteButtons); //?? пустий
+  // отримаємо посилання на всі елементи з класом title
+  const titles = document.querySelectorAll(".title");
+  console.log(titles); // пустий і начебто ничім не відрізняється від 100
+  titles.forEach((title) => title.addEventListener("click", renderPreview));
 };
-//   const deleteButtons = document.querySelectorAll(".delete");
-//   deleteButtons.forEach((button) => {
-//     button.addEventListener("click", deleteBook);
-//   });
-
-//   const titles = document.querySelectorAll(".title");
-//   console.log(titles);
-//   titles.forEach((title) => title.addEventListener("click", renderPreview));
-// };
-// renderList();
-// function deleteBook(event) {
-//   books = books.filter((book) => book.id !== event.target.parentNode.id);
-//   renderList();
-// }
-
-// function createBookMarkup({ id, title, author, plot, img }) {
-//   const markup = `<div data-id=${id}><h2>${title}</h2><p>${author}</p><img src='${img}' alt='${title}'><p>${plot}</p></div>`;
-//   return markup;
-// }
+renderList();
+// deleteBook приймає аргумент event
+function deleteBook(event) {
+  // перезаписує масив букс без бука з айді як у ліжкі з кнопкой, на яку клікнули
+  books = books.filter((book) => book.id !== event.target.parentNode.id);
+  // виклик renderList щоб перезаписати розмітку після видалення бук
+  renderList();
+}
+function createBookMarkup({ id, title, author, plot, img }) {
+  const markup = `<div data-id=${id}><h2>${title}</h2><p>${author}</p><img src='${img}' alt='${title}'><p>${plot}</p></div>`;
+  return markup;
+}
 // // // function createBookMarkup(book) {
 // // //   const markup = `<div data-id=${this.id}><h2>${this.title}</h2><p>${this.author}</p><img src='${this.img}' alt='${this.title}'><p>${this.plot}</p></div>`;
 // // //   return markup;
 // // // }
 
-// addButton.addEventListener("click", addBook);
+addButton.addEventListener("click", addBook);
 
-// function addBook(event) {
-//   console.log(event);
-//   console.log(event.target);
-// }
+function addBook(event) {
+  console.log(event);
+  console.log(event.target);
+  // ??? чому
+  const formMarkup = createFormMarkup();
+  rightDiv.innerHTML = formMarkup;
+  const form = document.querySelector("form");
+  form.addEventListener("submit", saveBook);
+}
 
-// function renderPreview(event) {
-//   const p = event.target;
-//   // console.log(p.parentNode.id);
-//   // console.log(p);
-//   console.log(p.textContent);
-//   const item = books.find((book) => book.title === p.textContent);
-//   // console.log(item);
-//   const markup = createBookMarkup(item);
-//   console.log(markup);
-//   rightDiv.innerHTML = markup;
-// }
+function saveBook(event) {
+  event.preventDefault();
+  console.log(event);
+}
+
+function renderPreview(event) {
+  const p = event.target;
+  // console.log(p.parentNode.id);
+  // console.log(p);
+  console.log(p.textContent);
+  const item = books.find((book) => book.title === p.textContent);
+  console.log(item);
+  const markup = createBookMarkup(item);
+  console.log(markup);
+  rightDiv.innerHTML = markup;
+}
+
+function createFormMarkup() {
+  // ??? form, label, <input></input> ... та підписи
+  const form = `<form><label>Title<input type="text" name="title"></label><label>Author<input type="text" name="author"></label><label>Image<input type="url" name="img"></label><label>Plot<input type="text" name="plot"></label><button>Save</button></form>`;
+  return form;
+}
