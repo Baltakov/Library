@@ -115,10 +115,10 @@ function createBookMarkup({ id, title, author, plot, img }) {
   const markup = `<div data-id=${id}><h2>${title}</h2><p>${author}</p><img src='${img}' alt='${title}'><p>${plot}</p></div>`;
   return markup;
 }
-// // // function createBookMarkup(book) {
-// // //   const markup = `<div data-id=${this.id}><h2>${this.title}</h2><p>${this.author}</p><img src='${this.img}' alt='${this.title}'><p>${this.plot}</p></div>`;
-// // //   return markup;
-// // // }
+// function createBookMarkup(book) {
+//   const markup = `<div data-id=${this.id}><h2>${this.title}</h2><p>${this.author}</p><img src='${this.img}' alt='${this.title}'><p>${this.plot}</p></div>`;
+//   return markup;
+// }
 
 addButton.addEventListener("click", addBook);
 
@@ -134,6 +134,20 @@ function addBook(event) {
 
 function saveBook(event) {
   event.preventDefault();
+  const form = event.target;
+  const title = form.elements.title.value;
+  const author = form.elements.author.value;
+  const img = form.elements.img.value;
+  const plot = form.elements.plot.value;
+
+  if (title === "" || author === "" || img === "" || plot === "") {
+    return console.log("Please fill in all the fields!");
+  }
+
+  console.log(
+    `Title: ${title}, Author: ${author}, Image: ${img}, Plot: ${plot}`
+  );
+  form.reset();
   console.log(event);
 }
 
