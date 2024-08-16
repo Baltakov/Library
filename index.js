@@ -122,11 +122,9 @@ function deleteBook(event) {
   renderList();
   const preview = document.querySelector(".inner-wrapper");
   if (preview) {
-    // console.log(preview.dataset.id);
-    // якщо айді книжки, що видаляється співпадає зі значенням дата-атрибута, почистити правий дів
-  }
-  if (preview.dataset.id === event.target.parentNode.id) {
-    rightDiv.innerHTML = [];
+    if (preview.dataset.id === event.target.parentNode.id) {
+      rightDiv.innerHTML = "";
+    }
   }
 }
 
@@ -140,7 +138,6 @@ addButton.addEventListener("click", addBook);
 function addBook(event) {
   // console.log(event);
   // console.log(event.target);
-  // ??? чому
   const formMarkup = createFormMarkup();
   rightDiv.innerHTML = formMarkup;
   const form = document.querySelector("form");
@@ -210,9 +207,12 @@ function editBook(event) {
   const markup = createFormMarkup(book);
   rightDiv.innerHTML = markup;
   const form = document.querySelector("form");
+  const index = books.findIndex(
+    (book) => book.id === event.target.parentNode.id
+  );
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const form = event.target;
+    // const form = event.target;
     const title = form.elements.title.value;
     const author = form.elements.author.value;
     const img = form.elements.img.value;
@@ -224,12 +224,11 @@ function editBook(event) {
 
     const updBook = { id: book.id, title, author, img, plot };
     console.log(updBook);
-    // зберігти бук відреагований у масиві
-    //
+    books.splice(index, 1, updBook);
+    renderList();
   });
-  const index = books.findIndex(
-    (book) => book.id === event.target.parentNode.id
-  );
+
   console.log(index);
 }
+
 // під знайденим індексом в масиві має опинитися об'єкт з оновленям
