@@ -77,7 +77,7 @@ leftDiv.append(title, list, addButton);
 const renderList = () => {
   const markup = books
     .map(
-      (book) => `<li id="${book.id}">
+      (book) => `<li id="${book.id}" class="bookItem">
   <p class="title">${book.title}</p><button class="delete">Delete</button><button class="edit">Edit</button></li>`
     )
     .join("");
@@ -88,28 +88,42 @@ const renderList = () => {
   // вставляємо нову розмітку на початку улкі
   list.insertAdjacentHTML("afterbegin", markup);
   // console.log(list.innerHTML);
+  const items = document.querySelectorAll(".bookItem");
+  items.forEach((item) => {
+    item.addEventListener("click", (event) => {
+      if (event.target.classList.contains("title")) {
+        renderPreview(event);
+      }
+      if (event.target.classList.contains("delete")) {
+        deleteBook(event);
+      }
+      if (event.target.classList.contains("edit")) {
+        editBook(event);
+      }
+    });
+  });
 
   // отримаємо посилання на всі елементи з класом delete
-  const deleteButtons = document.querySelectorAll(".delete");
-  const editButtons = document.querySelectorAll(".edit");
+  // const deleteButtons = document.querySelectorAll(".delete");
+  // const editButtons = document.querySelectorAll(".edit");
 
-  editButtons.forEach((button) => {
-    button.addEventListener("click", editBook);
-  });
-  // console.log(deleteButtons);
+  // editButtons.forEach((button) => {
+  //   button.addEventListener("click", editBook);
+  // });
+  // // console.log(deleteButtons);
 
-  // перебираємо масив кнопок та надаємо обробника подій кожної
-  deleteButtons.forEach((button) => {
-    // console.log(index + 1); // немає у консолі ????
-    button.addEventListener("click", deleteBook);
-    // console.log(deleteButtons); // немає у консолі ????
-  });
+  // // перебираємо масив кнопок та надаємо обробника подій кожної
+  // deleteButtons.forEach((button) => {
+  //   // console.log(index + 1); // немає у консолі ????
+  //   button.addEventListener("click", deleteBook);
+  //   // console.log(deleteButtons); // немає у консолі ????
+  // });
   // console.log(deleteButtons); //?? пустий
 
   // отримаємо посилання на всі елементи з класом title
-  const titles = document.querySelectorAll(".title");
-  // console.log(titles); // пустий і начебто ничім не відрізняється від 100
-  titles.forEach((title) => title.addEventListener("click", renderPreview));
+  // const titles = document.querySelectorAll(".title");
+  // // console.log(titles); // пустий і начебто ничім не відрізняється від 100
+  // titles.forEach((title) => title.addEventListener("click", renderPreview));
 };
 
 renderList();
@@ -170,22 +184,13 @@ function saveBook(event) {
   renderList();
   const markup = createBookMarkup(newBook);
   rightDiv.innerHTML = markup;
-  // console.log(
-  //   `Title: ${title}, Author: ${author}, Image: ${img}, Plot: ${plot}`
-  // );
   form.reset();
 }
 
 function renderPreview(event) {
-  // console.log(item);
   const p = event.target;
-  // console.log(p.parentNode.id);
-  // console.log(p);
-  // console.log(p.textContent);
   const item = books.find((book) => book.title === p.textContent);
-  // console.log(item);
   const markup = createBookMarkup(item);
-  // console.log(markup);
   rightDiv.innerHTML = markup;
 }
 
@@ -226,9 +231,6 @@ function editBook(event) {
     console.log(updBook);
     books.splice(index, 1, updBook);
     renderList();
+    rightDiv.innerHTML = createBookMarkup(updBook);
   });
-
-  console.log(index);
 }
-
-// під знайденим індексом в масиві має опинитися об'єкт з оновленям
