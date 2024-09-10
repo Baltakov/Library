@@ -7,41 +7,36 @@ if (!localStorageBooks) {
   localStorage.setItem("books", JSON.stringify(books));
 }
 
-//отримаємо посилання на елемент з классом рут
+const defaultListBook = document.createElement("button");
+defaultListBook.textContent = "Default list books";
+defaultListBook.classList.add("default");
+
 const root = document.querySelector(".root");
-// console.log(root);
-// створюємо два тегі дів
 const leftDiv = document.createElement("div");
 const rightDiv = document.createElement("div");
-// console.log(leftDiv);
-// додаємо створеним тегам класи
+
 leftDiv.classList.add("left");
 rightDiv.classList.add("right");
-// console.log(leftDiv);
-// ???????додаємо створені діви в ДОМ-дерево. В html ми з початку ствоювали контент, а потім додавли до нього класи((
-root.append(leftDiv, rightDiv);
-// console.log(root.innerHTML);
-// створюємо тег аш1
-const title = document.createElement("h1");
-// console.log(title); // ???????????Screenshot_15
-// присвоюємо заголовку аш1 значення текст
-title.textContent = "Library";
-// console.log(title.textContent);
-// створюємо тег ул
-const list = document.createElement("ul");
-// console.log(list);
-// створюємо тег баттон
-const addButton = document.createElement("button");
-// console.log(addButton);
-// кнопці присвоюємо значення текст
-addButton.textContent = "Add book";
-// console.log(addButton.textContent);
-// додаємо кнопці клас ад
-addButton.classList.add("add");
-// console.log(addButton);
-// додаємо створені аш1, улку та кнопку адблок в ДОМ-дерево
-leftDiv.append(title, list, addButton);
 
+root.append(leftDiv, rightDiv);
+
+const title = document.createElement("h1");
+title.textContent = "Library";
+const list = document.createElement("ul");
+const addButton = document.createElement("button");
+addButton.textContent = "Add book";
+addButton.classList.add("add");
+
+leftDiv.append(title, list, addButton);
+leftDiv.append(defaultListBook);
+
+defaultListBook.addEventListener("click", () => {
+  localStorage.removeItem("books");
+  localStorage.setItem("books", JSON.stringify(books));
+  list.innerHTML = "";
+  renderList();
+  location.reload();
+});
 // створюємо функцію renderList, яка за допомогою метода меп перебирає масив букс і повертає ліжку з айді, заголовок з назвою та кнопку Делейт. Формує HTML-размітку з айді, назвою та кнопкою.
 export const renderList = () => {
   const books = JSON.parse(localStorage.getItem("books"));

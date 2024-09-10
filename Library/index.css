@@ -9,3 +9,9 @@
 .root {
   display: flex;
 }
+
+.default {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
