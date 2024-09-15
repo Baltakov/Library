@@ -113,8 +113,8 @@ export function showNotification(message) {
   closeButton.textContent = "X";
 
   setTimeout(() => {
-    notification.classList.add("hidden");
-  }, 4000);
+    notification.remove();
+  }, 3000);
 
   closeButton.addEventListener("click", () => {
     notification.remove();
