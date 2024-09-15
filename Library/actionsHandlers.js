@@ -18,17 +18,21 @@ export function deleteBook(event) {
       rightDiv.innerHTML = "";
     }
   }
+  showNotification("Deleted book");
 }
 
 export function addBook(event) {
   // console.log(event);
   // console.log(event.target);
   const formMarkup = createFormMarkup();
-  console.log(formMarkup);
+  // console.log(formMarkup);
   const rightDiv = document.querySelector(".right");
   rightDiv.innerHTML = formMarkup;
   const form = document.querySelector("form");
-  console.log(form);
+  // console.log(form);
+  // document.querySelector(".save").addEventListener("click", () => {
+  // showNotification("Book saved!");
+  // });
   form.addEventListener("submit", saveBook);
 }
 
@@ -55,12 +59,13 @@ export function editBook(event) {
     }
 
     const updBook = { id: book.id, title, author, img, plot };
-    console.log(updBook);
+    // console.log(updBook);
     books.splice(index, 1, updBook);
 
     localStorage.setItem("books", JSON.stringify(books));
     renderList();
     rightDiv.innerHTML = createBookMarkup(updBook);
+    showNotification("Book updated");
   });
 }
 function saveBook(event) {
@@ -82,7 +87,7 @@ function saveBook(event) {
     img,
     plot,
   };
-  console.log(newBook);
+  // console.log(newBook);
 
   const books = JSON.parse(localStorage.getItem("books"));
   books.push(newBook);
@@ -91,5 +96,30 @@ function saveBook(event) {
   const markup = createBookMarkup(newBook);
   const rightDiv = document.querySelector(".right");
   rightDiv.innerHTML = markup;
-  form.reset();
+  showNotification("Book added!");
+}
+
+export function showNotification(message) {
+  const notification = document.createElement("div");
+  // console.log(message);
+  notification.classList.add("notification");
+
+  const notificationText = document.createElement("span");
+  notificationText.classList.add("notification-text");
+  notificationText.textContent = message;
+
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("close-notification");
+  closeButton.textContent = "X";
+
+  setTimeout(() => {
+    notification.classList.add("hidden");
+  }, 4000);
+
+  closeButton.addEventListener("click", () => {
+    notification.remove();
+  });
+  notification.append(notificationText, closeButton);
+  const rightDiv = document.querySelector(".right");
+  rightDiv.before(notification);
 }

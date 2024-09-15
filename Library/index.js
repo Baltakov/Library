@@ -1,6 +1,11 @@
 import books from "./books.js";
 import { createBookMarkup } from "./createMarkupHelpers.js";
-import { deleteBook, addBook, editBook } from "./actionsHandlers.js";
+import {
+  deleteBook,
+  addBook,
+  editBook,
+  showNotification,
+} from "./actionsHandlers.js";
 
 const localStorageBooks = localStorage.getItem("books");
 if (!localStorageBooks) {
@@ -31,11 +36,10 @@ leftDiv.append(title, list, addButton);
 leftDiv.append(defaultListBook);
 
 defaultListBook.addEventListener("click", () => {
-  localStorage.removeItem("books");
   localStorage.setItem("books", JSON.stringify(books));
   list.innerHTML = "";
   renderList();
-  location.reload();
+  showNotification("Reseted list books");
 });
 // створюємо функцію renderList, яка за допомогою метода меп перебирає масив букс і повертає ліжку з айді, заголовок з назвою та кнопку Делейт. Формує HTML-размітку з айді, назвою та кнопкою.
 export const renderList = () => {
