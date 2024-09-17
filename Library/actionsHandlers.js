@@ -110,11 +110,13 @@ export function showNotification(message) {
 
   const closeButton = document.createElement("button");
   closeButton.classList.add("close-notification");
-  closeButton.textContent = "X";
 
   setTimeout(() => {
-    notification.remove();
-  }, 3000);
+    notification.classList.add("hidden");
+    setTimeout(() => {
+      notification.remove();
+    }, 2000);
+  }, 500);
 
   closeButton.addEventListener("click", () => {
     notification.remove();

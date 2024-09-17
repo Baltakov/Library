@@ -56,7 +56,25 @@
 // });
 
 // const timerId = setTimeout(callback, delay, arg1, arg2, ...);
-console.log(1);
-const add = (a, b) => console.log(a + b);
-setTimeout(add, 0, 100, 200);
-console.log(2);
+// console.log(1);
+// const add = (a, b) => console.log(a + b, Math.random());
+// const temp = setInterval(add, 1000, 100, 200);
+// setTimeout(() => clearInterval(temp), 10000);
+// console.log(2);
+
+// Change value of isSuccess variable to call resolve or reject
+
+const isSuccess = false;
+
+const promise = new Promise((res, rej) => {
+  setTimeout(() => {
+    if (isSuccess) {
+      res("Success! Value passed to resolve function");
+    } else {
+      rej("Error! Error passed to reject function");
+    }
+  }, 2000);
+});
+// console.log(promise);
+// setTimeout(() => console.log(promise), 5000);
+promise.then((data) => console.log(data)).catch((data) => console.log(data));
