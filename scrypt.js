@@ -64,17 +64,92 @@
 
 // Change value of isSuccess variable to call resolve or reject
 
-const isSuccess = false;
+// const isSuccess = Math.random();
 
-const promise = new Promise((res, rej) => {
-  setTimeout(() => {
-    if (isSuccess) {
-      res("Success! Value passed to resolve function");
-    } else {
-      rej("Error! Error passed to reject function");
-    }
-  }, 2000);
-});
+// const promise = new Promise((res, rej) => {
+//   setTimeout(() => {
+//     if (isSuccess > 0.5) {
+//       res("Success! Value passed to resolve function");
+//     } else {
+//       rej("Error! Error passed to reject function");
+//     }
+//   }, 1000);
+// });
 // console.log(promise);
 // setTimeout(() => console.log(promise), 5000);
-promise.then((data) => console.log(data)).catch((data) => console.log(data));
+
+// promise.then((data) => console.log(data)).catch((data) => console.log(data));
+
+// promise.then(
+//   (res) => console.log(res),
+//   (error) => console.log(error)
+// );
+
+// promise
+//   .then((res) => {
+//     console.log(res);
+//     return res;
+//   })
+//   .then((error) => {
+//     console.log(error);
+//   });
+
+// // Напиши функцію delay(ms), яка повертає проміс, що переходить в стан "resolved" через ms мілісекунд.
+// //  Значенням промісу, яке виповнилося має бути та кількість мілісекунд, яку передали під час виклику функції delay.
+
+// const delay = (ms) => {
+//   return new Promise((resolve) => {
+//     setTimeout(() => {
+//       resolve(ms);
+//     }, ms);
+//   });
+// };
+// console.log(delay(1000));
+// delay(1000).then((data) => {
+//   console.log(data);
+// });
+
+// const logger = (time) => console.log(`Resolved after ${time}ms`);
+
+// Виклик функції для перевір
+
+// Перепиши функцію toggleUserState() так, щоб вона не використовувала callback-функцію callback, а приймала
+// всього два параметри allUsers і userName і повертала проміс.
+
+const users = [
+  { name: "Mango", active: true },
+  { name: "Poly", active: false },
+  { name: "Ajax", active: true },
+  { name: "Lux", active: false },
+];
+
+// const toggleUserState = (allUsers, userName, callback) => {
+//   const updatedUsers = allUsers.map((user) =>
+//     user.name === userName ? { ...user, active: !user.active } : user
+//   );
+
+//   callback(updatedUsers);
+// };
+
+// const logger = (updatedUsers) => console.table(updatedUsers);
+
+// /*
+//  * Зараз працює так
+//  */
+// toggleUserState(users, "Mango", logger);
+// toggleUserState(users, "Lux", logger);
+
+const toggleUserState = (allUsers, userName) => {
+  const updatedUsers = allUsers.map((user) =>
+    user.name === userName ? { ...user, active: !user.active } : user
+  );
+
+  return new Promise((resolve) => {
+    resolve(updatedUsers);
+  });
+};
+
+const logger = (updatedUsers) => console.table(updatedUsers);
+
+toggleUserState(users, "Mango").then((data) => logger(data));
+toggleUserState(users, "Lux").then(logger);
