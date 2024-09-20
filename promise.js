@@ -13,7 +13,7 @@ const makeTransaction = (transaction) => {
     setTimeout(() => {
       if (canProcess) {
         //   onSuccess(transaction.id, delay);
-        res(transaction.id, delay);
+        res([transaction.id, delay]);
       } else {
         //   onError(transaction.id);
         rej(transaction.id);
@@ -22,12 +22,15 @@ const makeTransaction = (transaction) => {
   });
 };
 
-const logSuccess = (id, time) => {
-  console.log(`Transaction ${id} processed in ${time}ms`);
+const logSuccess = ([id, time]) => {
+  console.log(`🟢Transaction ${id} processed in ${time}ms`);
 };
 
 const logError = (id) => {
-  console.warn(`Error processing transaction ${id}. Please try again later.`);
+  // console.warn(`🔴Error processing transaction ${id}. Please try again later.`);
+  console.error(
+    `🔴Error processing transaction ${id}. Please try again later.`
+  );
 };
 
 // // /*
