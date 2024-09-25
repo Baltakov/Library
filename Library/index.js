@@ -46,8 +46,8 @@ export const renderList = () => {
   const books = JSON.parse(localStorage.getItem("books"));
   const markup = books
     .map(
-      (book) => `<li id="${book.id}" class="bookItem">
-  <p class="title">${book.title}</p><button class="delete">Delete</button><button class="edit">Edit</button></li>`
+      ({ id, title }) => `<li id="${id}" class="bookItem">
+  <p class="title">${title}</p><button class="delete">Delete</button><button class="edit">Edit</button></li>`
     )
     .join("");
   // перед вставкою нового контента очищуємо в улкі старий

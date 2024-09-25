@@ -11,6 +11,6 @@ export function createFormMarkup(
     plot: "",
   }
 ) {
-  const form = `<form><label>Title<input value="${title}" type="text" name="title"></label><label>Author<input value="${author}" type="text" name="author"></label><label>Image<input value="${img}" type="url" name="img"></label><label>Plot<input value="${plot}" type="text" name="plot"></label><button class="save">Save</button></form>`;
+  const form = `<form><label><input value="${title}" type="text" placeholder="Enter title" name="title"></label><label><input value="${author}" type="text" placeholder="Enter author"name="author"></label><label><input value="${img}" type="url" placeholder="Enter image" name="img"></label><label><input value="${plot}" type="text" placeholder="Enter plot"name="plot"></label><button class="save">Save</button></form>`;
   return form;
 }

@@ -1,0 +1,16 @@
+body {
+  margin: 16px;
+  line-height: 1.5;
+  color: #212121;
+  font-family: sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+.book-list {
+  margin: 0;
+  /* list-style: none; */
+  padding: 24px;
+}
