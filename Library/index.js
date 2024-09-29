@@ -27,7 +27,7 @@ root.append(leftDiv, rightDiv);
 
 const title = document.createElement("h1");
 title.textContent = "Library";
-const list = document.createElement("ul");
+const list = document.createElement("ol");
 const addButton = document.createElement("button");
 addButton.textContent = "Add book";
 addButton.classList.add("add");

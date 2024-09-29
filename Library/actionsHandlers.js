@@ -48,7 +48,7 @@ export function editBook(event) {
   );
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    // const form = event.target;
+
     const title = form.elements.title.value;
     const author = form.elements.author.value;
     const img = form.elements.img.value;
@@ -87,7 +87,6 @@ function saveBook(event) {
     img,
     plot,
   };
-  // console.log(newBook);
 
   const books = JSON.parse(localStorage.getItem("books"));
   books.push(newBook);
