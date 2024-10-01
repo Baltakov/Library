@@ -77,7 +77,7 @@ function saveBook(event) {
   const plot = form.elements.plot.value;
 
   if (title === "" || author === "" || img === "" || plot === "") {
-    return console.log("Please fill in all the fields!");
+    return alert("Please fill in all the fields!");
   }
 
   const newBook = {
@@ -100,7 +100,6 @@ function saveBook(event) {
 
 export function showNotification(message) {
   const notification = document.createElement("div");
-  // console.log(message);
   notification.classList.add("notification");
 
   const notificationText = document.createElement("span");

@@ -3,6 +3,7 @@ export function createBookMarkup({ id, title, author, plot, img }) {
   return markup;
 }
 
+
 export function createFormMarkup(
   { title, author, img, plot } = {
     title: "",
