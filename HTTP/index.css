@@ -1,3 +1,15 @@
+.root {
+  display: flex;
+}
+
+.left {
+  background-color: #f21818;
+  width: 30%;
+}
+.right {
+  background-color: #f3e011;
+  width: 70%;
+}
 body {
   margin: 16px;
   line-height: 1.5;

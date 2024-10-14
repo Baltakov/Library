@@ -5,6 +5,10 @@ const BASE_URL = "https://66ed67b5380821644cdcb2d9.mockapi.io";
 const addBook = document.querySelector(".add");
 const formWrapper = document.querySelector(".formWrapper");
 
+const root = document.querySelector(".root");
+const rightDiv = document.querySelector(".right");
+const leftDiv = document.querySelector(".left");
+
 function getBooks() {
   return fetch(`${BASE_URL}/books`)
     .then((response) => response.json())
@@ -27,7 +31,7 @@ function renderBooksList(books) {
   const markup = books
     .map(({ id, title }) => {
       return `<li id=${id}>
-    <p>Title: ${title}</p><button class='deleteBook'>Delete</button><button class="edit">Edit</button><div class='editFormWrapper'></div>
+    <p class='bookTitle'>Title: ${title}</p><button class='deleteBook'>Delete</button><button class="edit">Edit</button><div class='editFormWrapper'></div>
     </li>`;
     })
     .join("");
@@ -38,9 +42,13 @@ function renderBooksList(books) {
 booksList.addEventListener("click", (event) => {
   if (event.target.classList.contains("deleteBook")) {
     deleteBook(event);
+    rightDiv.innerHTML = "";
   }
   if (event.target.classList.contains("edit")) {
     editBook(event);
+  }
+  if (event.target.classList.contains("bookTitle")) {
+    renderPreview(event);
   }
 });
 
@@ -58,8 +66,9 @@ function deleteBook(event) {
 }
 
 addBook.addEventListener("click", () => {
-  formWrapper.insertAdjacentHTML("beforeend", createFormMarkup());
-  const form = document.querySelector("form");
+  rightDiv.innerHTML = "";
+  rightDiv.insertAdjacentHTML("beforeend", createFormMarkup());
+  const form = rightDiv.querySelector("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -73,7 +82,6 @@ addBook.addEventListener("click", () => {
     }
 
     const newBook = { title, author, image, plot };
-    console.log(newBook);
 
     const options = {
       method: "POST",
@@ -86,7 +94,10 @@ addBook.addEventListener("click", () => {
     fetch(`${BASE_URL}/books`, options)
       .then((response) => response.json())
       .then(() => getBooks())
-      .then((books) => renderBooksList(books))
+      .then((books) => {
+        renderBooksList(books);
+        rightDiv.innerHTML = createBookMarkup(newBook);
+      })
       .catch((error) => console.log(error));
   });
 });
@@ -107,9 +118,9 @@ function editBook(event) {
   const bookId = event.target.parentNode.id;
   getBookById(bookId).then((book) => {
     const markup = createFormMarkup(book);
-    const formWrapper = document.querySelector(".editFormWrapper");
-    formWrapper.innerHTML = markup;
-    const form = document.querySelector("form");
+    const previewMarkup = createBookMarkup(book);
+    rightDiv.innerHTML = `${markup}${previewMarkup}`;
+    const form = rightDiv.querySelector("form");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -133,21 +144,33 @@ function editBook(event) {
       };
 
       fetch(`${BASE_URL}/books/${bookId}`, options)
-        .then((response) => response.json())
         .then(() => getBooks())
-        .then((books) => renderBooksList(books))
-        .catch((error) => console.log("ERROR" + error));
+        .then((books) => {
+          renderBooksList(books);
+          rightDiv.innerHTML = createBookMarkup(updBook);
+        })
+        // .then(renderBooksList)
+        .catch((error) => console.log(error));
     });
   });
-}
-
-function createBookMarkup({ id, title, author, plot, img }) {
-  const markup = `<div data-id=${id} class="inner-wrapper"><h2>${title}</h2><p>${author}</p><img src='${img}' alt='${title}'><p>${plot}</p></div>`;
-  return markup;
 }
 
 function getBookById(id) {
   return fetch(`${BASE_URL}/books/${id}`)
     .then((response) => response.json())
     .catch((error) => console.log(error));
+}
+
+function createBookMarkup({ id, title, author, plot, image }) {
+  const markup = `<div data-id=${id} class="inner-wrapper"><h2>${title}</h2><p>${author}</p><img src='${image}' alt='${title}'><p>${plot}</p></div>`;
+  return markup;
+}
+
+function renderPreview(event) {
+  const p = event.target;
+  const bookId = event.target.parentNode.id;
+  getBookById(bookId).then((book) => {
+    const markup = createBookMarkup(book);
+    rightDiv.innerHTML = markup;
+  });
 }
